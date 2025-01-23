@@ -75,7 +75,7 @@ int vite_Giocatori() {
 		getchar();
 		printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 	
-	while(vite < 2){		
+	while(vite < 1){		
 		printf("\nErrore, le vite iniziali dei giocatori devono essere almeno 2. \n\nscegli il numero di vite: ");
 		scanf("%d", &vite);
 		getchar();
@@ -416,8 +416,10 @@ void print_Carta(int n) {
  */
 
 void assegna_vite(int giocatori[20][2], int n, int maxvite) {
-	for(int i=0; i<n; i++)
+	for(int i=0; i<n; i++) {
+		giocatori[i][0] = i;
 		giocatori[i][1] = maxvite;
+	}
 	return;
 }
 
@@ -435,10 +437,9 @@ int check_vittoria(int giocatori[20][2], int n) {
 	int count_alive = 0; 
 
 	for (int i=0; i < n; i++){
-		
 		if (!is_dead(giocatori,i)){  //verifica se il giocatore è vivo
 			count_alive++;
-			giocatore_alive = i; //memorizza l'indice dell'ultimo giocatore vivo
+			giocatore_alive = giocatori[i][0]; //memorizza l'indice dell'ultimo giocatore vivo
 		}
 	}  
 	if (count_alive == 1){
@@ -562,17 +563,17 @@ bool HasScelta(int used[4][10], int target, int carte_giocatori[20][2]){
  */
 
 void visualizza_giocatori(int n, int giocatori[20][2], int carte_giocatori[20][2],int vite_in_campo){
-  char nascosto[] = "[...]\n";
+	char nascosto[] = "[...]\n";
 	printf("=============================================\n");
-  printf("vite in campo: %d\n",vite_in_campo);
-  for (int i=0; i<n; i++) {
+	printf("vite in campo: %d\n",vite_in_campo);
+	for (int i=0; i<n; i++) {
 		if(giocatori[i][1] > 0) {
 			printf("=============================================");
-			printf("\n\nGiocatore %d: \nVite_rimaste: %d\nCarte assegnate: \"", i, giocatori[i][1]);
+			printf("\n\nGiocatore %d: \nVite_rimaste: %d\nCarte assegnate: \"", giocatori[i][0], giocatori[i][1]);
 			print_Carta(carte_giocatori[i][0]);
 			printf("\" %s", nascosto);
 		} 
-  }
+	}
 }
 
 
@@ -584,7 +585,7 @@ void visualizza_giocatori(int n, int giocatori[20][2], int carte_giocatori[20][2
 *@param n_giocatori
 indica il numero dei giocatori in partitaa*/
 
-void eliminaGiocatori(int giocatori[20][2], int* n_Giocatori){
+void eliminaGiocatori(int giocatori[20][2], int* n_Giocatori) {
 	for(int i = 0; i < *n_Giocatori; i++){
 		if(giocatori[i][1] <= 0){
 			uccidiGiocatore(i, giocatori, n_Giocatori);
@@ -619,7 +620,7 @@ int main() {
 	// }
 
 	while(!gameover) {
-		system("clear"); //funziona solo 
+		/*system("clear"); //funziona solo */
 		mescola_mazzo(mazzo,dim_semi,dim_carte);
 		distribuisci_carte(mazzo,n_Giocatori,carte_gioc);
 		visualizza_giocatori(n_Giocatori, giocatori, carte_gioc, vite_in_campo);
@@ -628,7 +629,7 @@ int main() {
 		for(int i=0; i<n_Giocatori; i++) {
 			bool usato = true;
 			if(usato){
-				int risposta = gioca_turno(giocatori,i,carte_gioc,n_Giocatori)-1; // il giocatore ci restituisce 1 o 2 e lo mettiamo dentro risposta
+				int risposta = gioca_turno(giocatori,giocatori[i][0],carte_gioc,n_Giocatori)-1; // il giocatore ci restituisce 1 o 2 e lo mettiamo dentro risposta
 				risolvi_effetto(carte_gioc[i][risposta],giocatori[i],giocatori,&n_Giocatori,&vite_in_campo,i,carte_gioc); // risolvi l'effetto della carta che ha scelto il giocatore
 			}
 		}
