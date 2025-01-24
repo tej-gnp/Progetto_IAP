@@ -45,11 +45,10 @@ void crea_mazzo(int arr[4][10], int dim_semi, int dim_carte) {
 
 int num_Giocatori() {
 	int giocatori;
-		printf("~\n");
-  	printf("Scegli il numero di giocatori: ");
+	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");	  	printf("Scegli il numero di giocatori: ");
 		scanf("%d", &giocatori);
 		getchar();
-		printf("~\n");
+	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 
   while(giocatori < 2 || giocatori >20){
   	printf("\nErrore: I giocatori devono essere almeno 2 e massimo 20. \n\nScegli il numero di giocatori: ");
@@ -69,11 +68,11 @@ int num_Giocatori() {
 
 int vite_Giocatori() {
 	int vite;
-		printf("\n~\n");
+	printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
   	printf("Scegli il numero delle vite iniziali: ");
-		scanf("%d", &vite);
-		getchar();
-		printf("~\n");
+	scanf("%d", &vite);
+	getchar();
+	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 	
 	while(vite < 2){		
 		printf("\nErrore, le vite iniziali dei giocatori devono essere almeno 2. \n\nScegli il numero delle vite: ");
@@ -476,19 +475,51 @@ void distribuisci_carte(int carte[4][10], int n, int carte_giocatori[20][2]) {
 }
 
 /**
+*@brief funzione che verifica quali carte uccidono e chi morirebbe per il loro effetto.
+*@details Questa funzione attribuisce alle carte speciali 1 J e Q un punto. Quando
+*un giocatore sceglierà una di queste carte nel caso in cui abbia una sola vita, la funzione restituisce true
+*perchè il giocatore morirebbe.
+*@param giocatori è la lista di giocatori presenti in partita
+*@param Giocatore indica l'indice del giocatore che sta giocando 
+*@param carta è la carta giocata dal giocatore.
+*@return true se il giocatore muore per effetto della carta, false se non muore.
+ */
+
+bool uccide(int giocatori[20][2], int Giocatore, int carta) {
+	int punti = 0;
+	char figura = getCharFigura(carta);
+	if(figura=='J') {
+		punti = 1;
+	}
+	if(figura=='Q') {
+		punti = 1;
+	}
+	if(figura=='1') {
+		punti = 1;
+	}
+	if(giocatori[Giocatore][1]-punti<=0) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+/**
  *@brief funzione che inizia il turno per ogni giocatore.
  *@details La funzione stampa a schermo l'identificativo del giocatore, le sue vite e le due carte in 
  *suo possesso. La funzione stampa anche una grafica che raffigura le carte del giocatore.
  *La scelta della carta viene eseguita dando in input 1 o 2, rispettivamente per la prima e la seconda carta.
  *Nel caso in cui venga inserito un input diverso, varrà chiesto di ripetere la scelta finchè 
  *non viene inserito quello giusto.
+ *E' anche presente un controllo nel caso in cui un giocatore giochi una carta che provocherebbe la sua morte.
+ *Tramite la funzione "uccide" il giocatore può esprimere il suo consenso a giocare quella carta, in caso contrario il giocatore
+ *è legittimato a ripetere la sua scelta.
  *@param giocatori rappresenta la lista dei giocatori presenti in partita
  *@param target è l'indice del giocatore che sta giocando il suo turno
  *@param carte_giocatori sono le carte assegnate ad ogni giocatore
  *@param n è il numero di giocatori presenti in partita
  *@return la funzione ritorna la scelta del giocatore: 1 oppure 2
  */ 
-
 int gioca_turno(int giocatori[20][2], int target, int carte_giocatori[20][2], int n) {
 	int scelta;
 	printf("=============================================\n");
@@ -516,18 +547,32 @@ int gioca_turno(int giocatori[20][2], int target, int carte_giocatori[20][2], in
 	printf("   |           |");                   printf("      |           |\n");
 	printf("   |         %c |",carta1);           printf("      |         %c |\n",carta2);
 	printf("   +===========+");                   printf("      +===========+\n\n\n");
-	printf("~\n");
+	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 	printf("Premi 1 per [%c%c] o 2 per [%c%c]: ", getCharSeme(c1), getCharFigura(c1), getCharSeme(c2), getCharFigura(c2)); 
+
 	scanf("%d", &scelta);
 	getchar();
-	printf("~\n\n");
+	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
 
 	while (scelta != 1 && scelta != 2) {
-		printf("~\n");
+		printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 		printf("Scelta non valida! Inserisci 1 o 2: ");
+
 		scanf("%d", &scelta);
 		getchar();
-		printf("~\n\n");
+		printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
+	}
+	// capire se la carta uccide il giocatore
+	char risposta = 'N';
+	if(uccide(giocatori,target,carte_giocatori[target][scelta-1])) {
+		printf("\nQuesta carta provocherebbe la tua morte, sei sicuro di voler continuare? [S(si)/N(no)]:");
+		scanf("%c",&risposta);
+		getchar();
+		if(risposta=='N'|| risposta=='n') {
+			return gioca_turno(giocatori,target,carte_giocatori,n);
+		} else if (risposta=='S'||risposta=='s') {
+			scelta;
+		}
 	}
 	return scelta;
 }
@@ -556,7 +601,7 @@ bool HasScelta(int used[4][10], int target, int carte_giocatori[20][2]){
  * @details questa funzione stampa la carta nascosta, le vite in campo, e le informazioni sui giocatori ad esempio il numero del giocatore
  * le vite rimaste e le carte assegnate, tutte le informazioni sono divise da dei divisiori
  * @param n è il numero di giocatori presenti in partita
- * @param gicatori rappresenta il numero di giocatori presenti all'interno della partita e i loro punti vita 
+ * @param giocatori rappresenta il numero di giocatori presenti all'interno della partita e i loro punti vita 
  * @param carte_giocatori rappresenta il numero di gicoatori presenti all'interno della partita e le carte a loro disposizoni
  * @param vite_in_campo è un intero che racchiude tutti i punti vita lasciati sul campo
  */
@@ -577,11 +622,11 @@ void visualizza_giocatori(int n, int giocatori[20][2], int carte_giocatori[20][2
 
 
 /**
-*@brief funzione che elimina i giocatori dal gioco
+*@brief funzione che elimina i giocatori dal gioco.
 *@details La funzione effettua un controllo sui giocatori per verificare che essi abbiano almeno una vita.
 *In caso contrario, i giocatori vengono eliminati facendo ricorso alla funzione uccidiGiocatore.
 *@param giocatori rappresenta la lista dei giocatori presenti in partita
-*@param n_giocatoriindica il numero dei giocatori in partita
+*@param n_giocatori indica il numero dei giocatori in partita
 */
 
 void eliminaGiocatori(int giocatori[20][2], int* n_Giocatori){
@@ -610,13 +655,6 @@ int main() {
 	int mazzo[dim_semi][dim_carte];
 	crea_mazzo(mazzo, dim_semi, dim_carte);
 
-	// int used[4][10];
-	// for(int i=0;i<4;i++){
-	// 	for(int j=0;j<10;j++){
-	// 		used[i][j] = 0;
-	// 	}
-	// 	giocatori[i][1]=maxvite;
-	// }
 
 	while(!gameover) {
 		system("clear"); //funziona solo 
@@ -628,7 +666,10 @@ int main() {
 		for(int i=0; i<n_Giocatori; i++) {
 			bool usato = true;
 			if(usato){
-				int risposta = gioca_turno(giocatori,giocatori[i][0],carte_gioc,n_Giocatori)-1; // il giocatore ci restituisce 1 o 2 e lo mettiamo dentro risposta
+				int risposta = -1; // -1 è errore
+				while(risposta==-1) {
+					risposta = gioca_turno(giocatori,giocatori[i][0],carte_gioc,n_Giocatori)-1; // il giocatore ci restituisce 1 o 2 e lo mettiamo dentro risposta
+				}
 				risolvi_effetto(carte_gioc[i][risposta],giocatori[i],giocatori,&n_Giocatori,&vite_in_campo,i,carte_gioc); // risolvi l'effetto della carta che ha scelto il giocatore
 			}
 		}
@@ -644,3 +685,7 @@ int main() {
 	}
 	
 }
+
+
+
+
