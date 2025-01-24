@@ -8,8 +8,7 @@
  *@details una matrice bidimensionale con numeri univoci  
  * che rappresentano le carte di un mazzo. Ogni riga della matrice rappresenta  
  * un seme, mentre ogni colonna rappresenta una carta di quel seme.
- *@param arr Matrice bidimensionale [4][10] avente come dimensioni [dim_carte0] [dim_semmi]
- * entrami rappresentato il mazzo di carte
+ *@param arr Matrice bidimensionale che rappresenta il mazzo di carte
  *@param dim_semi numero di semi all'interno del mazzo (righe della matrice)
  *@param dim_carte mumero di carte per ogni seme (colonne  della matrice)
  */
@@ -23,16 +22,6 @@ void crea_mazzo(int arr[4][10], int dim_semi, int dim_carte) {
 	}
 }
 
-/**
-  void visualizza_mazzo(int arr[4][10], int dim_semi, int dim_carte){
-	for(int i=0; i<dim_semi; i++) {
-		for(int j=0; j<dim_carte; j++) {
-			printf("%2d ", arr[i][j]);
-		}
-		printf("\n");
-	}
-}
-*/
 
 /**
  * @brief funzione che ci permette di scegliere il numero di giocatori
@@ -45,10 +34,11 @@ void crea_mazzo(int arr[4][10], int dim_semi, int dim_carte) {
 
 int num_Giocatori() {
 	int giocatori;
-	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");	  	printf("Scegli il numero di giocatori: ");
+	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");	  	
+	printf("Scegli il numero di giocatori: ");
 		scanf("%d", &giocatori);
 		getchar();
-	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+	printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 
   while(giocatori < 2 || giocatori >20){
   	printf("\nErrore: I giocatori devono essere almeno 2 e massimo 20. \n\nScegli il numero di giocatori: ");
@@ -61,8 +51,8 @@ int num_Giocatori() {
 /**
 *@brief funzione che permette all'utente di selezionare con quante vite i giocatori cominciano la partita
 *@details all'esecuzione, la funzione chiederà all'utente con quante vite comincia ogni giocatore. 
- Nel caso in cui però l'utente inserisca un numero di vite inferiore al minimo, ovvero due, la funzione farà ripetere
- la scelta finchè non verrà inserito un valore accettabile
+*Nel caso in cui però l'utente inserisca un numero di vite inferiore al minimo, ovvero due, la funzione farà ripetere
+*la scelta finchè non verrà inserito un valore accettabile
 *@return la funzione ritorna il numero di vite iniziali inserite dall'utente.
 */
 
@@ -111,7 +101,7 @@ void mescola_mazzo(int mazzo[4][10], int dim_semi, int dim_carte) {
 /**
 *@brief funzione di tipo int che converte tutti i numeri del mazzo in una lista che va da 0 a 9
 *@details La funzione fa in modo di restituire un numero che va da 0 a 40 indipendentemente 
- dal suo valore, purchè rimanga maggiore di 0 e minore di 40
+ dal suo valore, purchè sia maggiore di 0 e minore di 40
 *@param n è il numero della carta all'interno del mazzo
 *@return ritorna un numero da 0 a 9. Ritornerà un messaggio di errore nel caso prenda un numero minore
  di 0 o maggiore o uguale di 40.
@@ -135,7 +125,7 @@ int getIntFigura(int n) {
 
 /**
 *@brief funzione che identifica le carte del mazzo con i semi delle carte
-*@details La funzione identifica ciascuna ride dell'array bidimensionale in un seme specifico.
+*@details La funzione identifica ciascuna riga dell'array bidimensionale in un seme specifico.
 *@param n è il numero della carta all'interno del mazzo
 *@return la funzione ritorna 'F' di fiori se il numero va da 0 a 9, 'P' di picche se il numero va 
 *da 10 a 19 e così via..
@@ -163,7 +153,7 @@ char getCharSeme(int n) {
 /**
 *@brief funzione che identifica i semi del mazzo con un indice
 *@details Questa funzione identifica ciascun seme con un identificativo che va da 0 a 3. In base alla riga in cui si trova la carta, essa verrà identificata con un
- suo indice specifico.
+*suo indice specifico.
 *@param n è il numero della carta all'interno del mazzo
 *@return la funzione ritorna 0 se la carta ha valore da 0 a 9. Quindi il seme Fiori ha indice 0.
 *E così via per tutti gli altri semi.
@@ -216,7 +206,7 @@ char getCharFigura(int n) {
 /**
 *@brief funzione che restituisce la carta non usata
 *@details la funzione ritorna la carta che non è stata utilizzata dal giocatore tramite un controllo dall'array bidimensionale. 
- Il ciclo for scorre le due carte di un giocatore e vede quale è stata usata o meno. +++++++++++++++++++++++++++++++(controllare)
+*Il ciclo for scorre le due carte di un giocatore e vede quale è stata usata o meno. +++++++++++++++++++++++++++++++(controllare)
 *@param carte_giocatori[20][2] è l'array che indica le carte che sono state distribuite ad ogni giocatore
 *@param target indica l'indice del giocatore a cui vogliamo controllare le carte.
 *@return se il valore della carta è uguale a 0, la carta non è stata utilizzata e ci viene data dalla funzione, altrimenti restituirà un messaggio che comunicherà al giocatore che non 
@@ -235,7 +225,7 @@ int GetCartaNonUsata(int carte_giocatori[20][2], int target){
 /**
 *@brief funzione che restituisce il giocatore successivo
 *@details La funzione ci restituisce il giocatore successivo all'indice che riceve. Nel caso in cui però l'indice sia quello
- dell'ultimo giocatore della lista dei giocatori, la funzione restituisce 0. 
+*dell'ultimo giocatore della lista dei giocatori, la funzione restituisce 0. 
 *@param target rappresenta l'indice del giocatore corrente
 *@param dim_giocatori rappresenta la quantità di giocatori presenti nel gioco
 *@return la funzione ritorna il giocatore successivo all'indice che la funzione riceve.
@@ -250,7 +240,7 @@ int getGiocatoreSuccessivo(int target, int dim_giocatori){
 /**
 *@brief funzione che restituisce il giocatore precedente
 *@details La funzione ci restituisce il giocatore precedente all'indice che riceve. Però nel caso in cui l'indice sia quello
- del primo giocatore, la funzione ci restituirà l'indice dell'ultimo giocatore della lista.
+*del primo giocatore, la funzione ci restituirà l'indice dell'ultimo giocatore della lista.
 *@param target rappresenta l'indice del giocatore corrente
 *@param dim_giocatori rappresenta la quantità di giocatori presenti nel gioco
 *@return la funzione ritorna il giocatore precedente all'indice che la funzione riceve.
@@ -285,7 +275,7 @@ int findpos(int indice, int giocatori[20][2], int num_giocatori) {
 /**
 *@brief funzione che elimina i giocatori dalla lista
 *@details la funzione uccide il giocatore rimpiazzandolo con quello successivo, spostando quindi tutti i giocatori
- successivi a quello morto di un indice superiore
+*successivi a quello morto di un indice superiore
 *@param target rappresenta l'indice di un giocatore
 *@param giocatori è un array bidimensionale che contiene il numero di giocatori più le loro vite
 *@param num_giocatori è una variabile che indica il numero di giocatori
@@ -314,6 +304,22 @@ bool is_dead(int giocatori[20][2], int indice) {
 }
 
 /**
+*@brief funzione che rimuove le vite ai giocatori
+*@details la funzione rimuove una vita al giocatore corrente. Nel caso in cui
+*il giocatore non avesse più vite, non vengono rimosse vite.
+*@param giocatori è la lista dei giocatori in partita
+*@param target è l'indice del giocatore corrente
+ */
+
+void rimuovi_vita(int giocatori[20][2], int target) {
+	if(giocatori[target][1]<=0){
+		return;
+	}
+	giocatori[target][1]--;
+	return;
+}
+
+/**
  * @brief funzione che gestisce gli effetti delle carta e stampa degli avvertimenti 
  * @details la funzione contiene diversi parametri tra cui 4 interi, 2 array bidimensionale e un array dimensionale. la funzione 
  * quando rileva una carta "speciale" ovvero che può applicare un effetto, applica l'effetto della carta e al contempo stampa
@@ -332,7 +338,8 @@ bool is_dead(int giocatori[20][2], int indice) {
 void risolvi_effetto(int carta, int giocante[2], int giocatori[20][2], int* num_giocatori, int* vite_in_campo, int target, int carte_giocatori[20][2]) { 
 	char c = getCharFigura(carta);
 	if( c == '1' ) {  // il giocante perde 1 punto vita 
-		giocatori[target][1] = giocatori[target][1]- 1;//all'array delle vite faccio meno uno al target
+		//giocatori[target][1]--;//all'array delle vite faccio meno uno al target
+		rimuovi_vita(giocatori,target);
 		*vite_in_campo = *vite_in_campo + 1;
 		printf("=============================================\n");
 		printf("EFFETTO DELLA CARTA [1]: il giocatore {%d} perde un punto vita e lo lascia sul campo\n", target);
@@ -350,7 +357,8 @@ void risolvi_effetto(int carta, int giocante[2], int giocatori[20][2], int* num_
 	}
 	else if( c == 'J' ) {  // il giocante che la gioca cede 1 punto vita al giocatore precedente 
 		int prec = GetGiocatorePrecedente(target,*num_giocatori);
-		giocante[1]--;
+		//giocatori[target][1]--;
+		rimuovi_vita(giocatori,target);
 		giocatori[prec][1]++;
 		printf("=============================================");
 		printf("\nEFFETTO DELLA CARTA [J]: il giocatore {%d} cede 1 punto vita al giocatore precedente\n", target);
@@ -359,13 +367,15 @@ void risolvi_effetto(int carta, int giocante[2], int giocatori[20][2], int* num_
 	else if( c == 'Q' ) { // il giocatore che la gioca cede 1 punto di vita a 2 giocatori sucessivi 
 		int succ = getGiocatoreSuccessivo(getGiocatoreSuccessivo(target,*num_giocatori),*num_giocatori); // ci da 2 successivi
 		giocatori[succ][1]++;
-		giocatori[target][1]--;
+		//giocatori[target][1]--;
+		rimuovi_vita(giocatori,target);
 		printf("=============================================");
 		printf("\nEFFETTO DELLA CARTA [Q]: il giocatore {%d} cede un punto vita a due giocatori successivi\n", target);
 		return;
 	}
 	else if( c == 'K' )  { // il giocatore riceve tutti i punti vita persi nel campo 
 		giocatori[target][1] += *vite_in_campo;
+		*vite_in_campo = 0;
 		printf("=============================================");
 		printf("\nEFFETTO DELLA CARTA [K]: il giocatore {%d} riceve tutti i punti vita persi nel campo\n", target);
 		printf("la vita del giocatore {%d} è: %d\n", target, giocatori[target][1]);
@@ -405,13 +415,13 @@ void print_Carta(int n) {
 // }
 
 /**
- *@brief Funzione che assegna vite ai giocatori all'inizio di ogni partita
- *@details la funzione assegna le vite ad ogni giocatore presente in gioco, scorrendo
-  dell'array bidimensionale tramite un ciclo for.
- *@param giocatori è l'array bidimensionale di giocatori e vite per ogni giocatore
- *@param n rappresenta il numero di giocatori presenti nella partita attualeparam 
- *@param maxvite indica le vite con cui i giocatori partono all'inizio della partita. 
- */
+*@brief Funzione che assegna vite ai giocatori all'inizio di ogni partita
+*@details la funzione assegna le vite ad ogni giocatore presente in gioco, scorrendo
+*dell'array bidimensionale tramite un ciclo for.
+*@param giocatori è l'array bidimensionale di giocatori e vite per ogni giocatore
+*@param n rappresenta il numero di giocatori presenti nella partita attualeparam 
+*@param maxvite indica le vite con cui i giocatori partono all'inizio della partita. 
+*/
 
 void assegna_vite(int giocatori[20][2], int n, int maxvite) {
 	for(int i=0; i<n; i++) {
@@ -422,13 +432,13 @@ void assegna_vite(int giocatori[20][2], int n, int maxvite) {
 }
 
 /**
- * @brief la funzione verifica se c'è un vincitore
- * @details attraverso l'array bidimensionale la funzione verifica se un giocatore è vivo, nel caso in cui il giocatore è vivo la funzione
- * memorizza il suo indice nel caso in cui un solo un giocatore resta vita (ovvero count_alive = 1) alla fine di un turno, quest'ultimo sarà il vincitore
- * @param giocatori indica l'array bidimensionale di giocatori e i loro punti vita
- * @param n indica il numero di giocatori
- * @return abbiamo in return l'indice del vincitore, nel caso rimanga solo un giocatore in vita, in caso contrario -1, implica che non c'è ancora nessun vincitore.
- */
+* @brief la funzione verifica se c'è un vincitore
+* @details attraverso l'array bidimensionale la funzione verifica se un giocatore è vivo, nel caso in cui il giocatore è vivo la funzione
+* memorizza il suo indice nel caso in cui un solo un giocatore resta vita (ovvero count_alive = 1) alla fine di un turno, quest'ultimo sarà il vincitore
+* @param giocatori indica l'array bidimensionale di giocatori e i loro punti vita
+* @param n indica il numero di giocatori
+* @return abbiamo in return l'indice del vincitore, nel caso rimanga solo un giocatore in vita, in caso contrario -1, implica che non c'è ancora nessun vincitore.
+*/
 
 int check_vittoria(int giocatori[20][2], int n) { 
 	int giocatore_alive = -1; 
@@ -450,12 +460,12 @@ int check_vittoria(int giocatori[20][2], int n) {
 /**
 *@brief funzione che distribuisce le carte ad ogni giocatore
 *@details questa funzione assegna due carte ad ogni giocatore tramite un for annidato.
- il primo for scorre i giocatori, il secondo, ovvero quello più interno, scorre le carte.
- Tramite un if, questa funzione è un grado di andara al seme successivo cambiando la riga.
+*il primo for scorre i giocatori, il secondo, ovvero quello più interno, scorre le carte.
+*Tramite un if, questa funzione è un grado di andara al seme successivo cambiando la riga.
 *@param carte è il mazzo di carte.
 *@param n è il numero di giocatori presenti in partita
 *@param carte_giocatori è l'array bidimensionale dove verranno distribuite due carte per ogni giocatore. 
- Le righe [20] rappresentano i giocatori, le colonne [2] rappresentano le carte.
+*Le righe [20] rappresentano i giocatori, le colonne [2] rappresentano le carte.
  */
 
 
@@ -564,8 +574,8 @@ int gioca_turno(int giocatori[20][2], int target, int carte_giocatori[20][2], in
 	}
 	// capire se la carta uccide il giocatore
 	char risposta = 'N';
-	if(uccide(giocatori,target,carte_giocatori[target][scelta-1])) {
-		printf("\nQuesta carta provocherebbe la tua morte, sei sicuro di voler continuare? [S(si)/N(no)]:");
+	if (uccide(giocatori,target,carte_giocatori[target][scelta-1])) {
+		printf("Questa carta provocherebbe la tua morte, sei sicuro di voler continuare? [S(si)/N(no)]:");
 		scanf("%c",&risposta);
 		getchar();
 		if(risposta=='N'|| risposta=='n') {
